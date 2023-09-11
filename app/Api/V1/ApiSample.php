@@ -2,17 +2,26 @@
 
 namespace App\API\V1;
 
-use CodeIgniter\RESTful\ResourceController;
+use App\Controllers\BaseController;
+use CodeIgniter\API\ResponseTrait;
 
-class ApiSample extends ResourceController
+class ApiSample extends BaseController
 {
 
-    protected $format = 'json';
+    use ResponseTrait;
 
     public function index()
     {
         return $this->respond([
             'msg' => 'hello world'
+        ]);
+    }
+    
+    public function protected() 
+    {
+
+        return $this->respond([
+            'msg' => 'Accesando al endpoint!'
         ]);
     }
 }

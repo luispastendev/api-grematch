@@ -11,8 +11,11 @@ class ApiSampleTest extends CIUnitTestCase
 
     public function testSampleApi()
     {
-        $response = $this->get('/api');
+        $response = $this->get('/api/v1');
+        $response->assertOK();
+        $response->assertHeader('Content-Type', 'application/json; charset=UTF-8');
 
+        $response = $this->get('/');
         $response->assertOK();
         $response->assertHeader('Content-Type', 'application/json; charset=UTF-8');
     }
