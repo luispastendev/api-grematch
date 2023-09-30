@@ -1,11 +1,11 @@
 <?php
 
-namespace App\API\V1;
+namespace App\Api\v1;
 
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 
-class ApiSample extends BaseController
+final class ApiSample extends BaseController
 {
 
     use ResponseTrait;
@@ -14,14 +14,6 @@ class ApiSample extends BaseController
     {
         return $this->respond([
             'msg' => 'hello world'
-        ]);
-    }
-    
-    public function protected() 
-    {
-
-        return $this->respond([
-            'msg' => 'Accesando al endpoint!'
         ]);
     }
 }

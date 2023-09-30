@@ -5,15 +5,16 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->group('api', ['namespace' => 'App\API'], static function ($routes) {
-    $routes->group('v1', ['namespace' => 'App\API\V1'], static function ($routes) {
-        $routes->get('/', 'ApiSample::index');
-    });
+
+$routes->group('v1', ['namespace' => 'App\Api\v1', 'filter' => 'tokens'], static function ($routes) {
+    $routes->get('/', 'ApiSample::index');
 });
 
-$routes->get('/', 'ApiSample::index', ['namespace' => 'App\API\V1']);
+// Adaptar despues
+$routes->get('/access/token', static function() {
+    $token = auth()->user()->generateAccessToken(service('request')->getVar('token_name'));
 
-$routes->get('api/v1/protected', 'ApiSample::protected', [
-    'filter' => 'tokens',
-    'namespace' => 'App\API\V1'
-]);
+    return json_encode(['token' => $token->raw_token]);
+});
+
+service('auth')->routes($routes);

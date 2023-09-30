@@ -1,22 +1,35 @@
 <?php
 
-namespace App\API\V1;
+namespace App\Api\v1;
 
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 
 class ApiSampleTest extends CIUnitTestCase
 {
     use FeatureTestTrait;
+    use DatabaseTestTrait;
 
-    public function testSampleApi()
+    protected $migrate     = true;
+    protected $migrateOnce = false;
+    protected $refresh     = true;
+    protected $namespace   = [
+        'CodeIgniter\Shield',
+        'CodeIgniter\Settings',
+    ];
+
+    public function testSampleApi(): void
     {
-        $response = $this->get('/api/v1');
-        $response->assertOK();
-        $response->assertHeader('Content-Type', 'application/json; charset=UTF-8');
+        $user  = fake(UserModel::class);
+        $token = $user->generateAccessToken('foo');
 
-        $response = $this->get('/');
-        $response->assertOK();
-        $response->assertHeader('Content-Type', 'application/json; charset=UTF-8');
+        $response = $this->withHeaders([
+            'Authorization' => "Bearer {$token->raw_token}",
+        ])->get('/v1');
+
+        $response->assertStatus(200);
+        $response->assertSee('hello world');
     }
 }
