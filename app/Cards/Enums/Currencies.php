@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Enums;
+namespace App\Cards\Enums;
 
 enum Currencies
 {
@@ -17,7 +17,7 @@ enum Currencies
     public function symbol(): string
     {
         return match ($this) {
-            self::MXN, 
+            self::MXN,
             self::USD => '$',
         };
     }
@@ -33,9 +33,8 @@ enum Currencies
     public function base(): int
     {
         return match ($this) {
-            self::MXN, 
+            self::MXN,
             self::USD => 100,
         };
     }
-
 }

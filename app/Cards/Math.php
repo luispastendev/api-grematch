@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 class Math
 {
@@ -9,7 +10,7 @@ class Math
         if (! $this->canPerformOperation($instance, $type)) {
             throw new \Exception('not valid operation.');
         }
-        
+
         $current = $this->amount;
         if ($type == 'multiply') {
             $entry = $instance->number();
@@ -18,10 +19,10 @@ class Math
         }
 
         $operations = [
-            'add'      => fn($a, $b) => $a + $b,
-            'subtract' => fn($a, $b) => $a - $b,
-            'multiply' => fn($a, $b) => $a * $b,
-            'divide'   => fn($a, $b) => $a / $b,
+            'add'      => fn ($a, $b) => $a + $b,
+            'subtract' => fn ($a, $b) => $a - $b,
+            'multiply' => fn ($a, $b) => $a * $b,
+            'divide'   => fn ($a, $b) => $a / $b,
         ];
 
         $result = $operations[$type]($current, $entry);
@@ -57,13 +58,13 @@ class Math
     }
 
     protected function canPerformOperation(Money $money, string $type): bool
-    {   
-        $type = strtolower($type);
+    {
+        $type       = strtolower($type);
         $operations = [
-            'add', 
-            'divide', 
-            'subtract', 
-            'multiply'
+            'add',
+            'divide',
+            'subtract',
+            'multiply',
         ];
 
         if ($type === 'divide' && $money->cents() < 1 || ! in_array($type, $operations)) {

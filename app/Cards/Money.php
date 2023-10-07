@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Cards;
 
-use App\Cards\BaseMoney;
-
 final class Money extends BaseMoney
 {
     private string $currencyCode = '';
@@ -15,7 +13,7 @@ final class Money extends BaseMoney
     private int    $base         = 0;
 
     public function __construct(mixed $amount, int $decimals = 2, string $currencyCode = 'MXN')
-    {   
+    {
         parent::__construct($currencyCode);
 
         $this->currencyCode = $this->currency->code();
@@ -47,7 +45,7 @@ final class Money extends BaseMoney
     {
         return $this->amount;
     }
-    
+
     public function format(): string
     {
         return $this->symbol . number_format($this->number(), $this->decimals);

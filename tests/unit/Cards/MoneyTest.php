@@ -36,19 +36,19 @@ class MoneyTest extends CIUnitTestCase
 
     public function testMoneyGet(): void
     {
-                    // $money = new Money('$1,100.54');
+        // $money = new Money('$1,100.54');
 
         // var_dump($money->get());
         // todo
     }
 
-    public function testGetNumber()
+    public function testGetNumber(): void
     {
-        $money_string = new Money('$1,100.54');
+        $money_string       = new Money('$1,100.54');
         $money_string_round = new Money('$1,100.545');
-        $money_float = new Money(1100.54);
-        $money_int = new Money(100);
-        $money_float_cents = new Money(0.015);
+        $money_float        = new Money(1100.54);
+        $money_int          = new Money(100);
+        $money_float_cents  = new Money(0.015);
 
         $this->assertSame(1100.54, $money_string->number());
         $this->assertSame(1100.55, $money_string_round->number());
@@ -57,35 +57,35 @@ class MoneyTest extends CIUnitTestCase
         $this->assertSame(0.02, $money_float_cents->number());
     }
 
-    public function testGetCents()
+    public function testGetCents(): void
     {
         $money = new Money('$1,100.54');
 
         $this->assertSame(110054, $money->cents());
     }
 
-    public function testMoneyFormat()
+    public function testMoneyFormat(): void
     {
-        $money_float_cents = new Money(0.015);
+        $money_float_cents        = new Money(0.015);
         $money_with_currency_code = new Money('$102,300.54 MXN');
 
         $this->assertSame('$0.02', $money_float_cents->format());
         $this->assertSame('$102,300.54', $money_with_currency_code->format());
     }
 
-    public function testOperationNotValid()
+    public function testOperationNotValid(): void
     {
         $money = new Money(0.015);
-        
+
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('not valid operation.');
         $money->divide(0);
     }
 
-    public function testOperationSubtract()
+    public function testOperationSubtract(): void
     {
-        $money_zero = new Money(1);
-        $money_sub = new Money('$200.00');
+        $money_zero     = new Money(1);
+        $money_sub      = new Money('$200.00');
         $money_negative = new Money('$200.00');
 
         $this->assertSame(199.00, $money_sub->sub(1)->number());
@@ -93,28 +93,28 @@ class MoneyTest extends CIUnitTestCase
         $this->assertSame(-1.21, $money_negative->sub(201.205)->number());
     }
 
-    public function testOperationMultiply()
+    public function testOperationMultiply(): void
     {
         $money = new Money('$200.00');
 
         $this->assertSame(1240.00, $money->multiply(3.1)->multiply(2)->number());
     }
-    
-    public function testOperationAdd()
+
+    public function testOperationAdd(): void
     {
         $money = new Money(0.015);
 
         $this->assertSame(901.02, $money->add(1)->add('900.00')->number());
     }
 
-    public function testDivideWithPrimitives()
+    public function testDivideWithPrimitives(): void
     {
         $money = new Money('$1,100.54');
 
         $this->assertSame(45.86, $money->divide(12)->divide(2)->number());
     }
 
-    public function testDivideWithMoneyObject()
+    public function testDivideWithMoneyObject(): void
     {
         $money = new Money('$1,100.54');
 

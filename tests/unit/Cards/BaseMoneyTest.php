@@ -29,33 +29,33 @@ class BaseMoneyTest extends CIUnitTestCase
         $this->assertSame(167, $prepare('1.665', 2));
     }
 
-    public function testCantPerformOperationDivideZero()
+    public function testCantPerformOperationDivideZero(): void
     {
-        $money = new Money(0);
+        $money               = new Money(0);
         $canPerformOperation = $this->getPrivateMethodInvoker($this->class, 'canPerformOperation');
-        
+
         $this->assertFalse($canPerformOperation($money, 'divide'));
     }
 
-    public function testCantPerformOperationOperationNotFound()
+    public function testCantPerformOperationOperationNotFound(): void
     {
-        $money = new Money(100);
+        $money               = new Money(100);
         $canPerformOperation = $this->getPrivateMethodInvoker($this->class, 'canPerformOperation');
 
         $this->assertFalse($canPerformOperation($money, 'Divaides'));
     }
 
-    public function testCantPerformOperationNotSameCurrencies()
+    public function testCantPerformOperationNotSameCurrencies(): void
     {
-        $money = new Money(100, 2, 'USD');
+        $money               = new Money(100, 2, 'USD');
         $canPerformOperation = $this->getPrivateMethodInvoker($this->class, 'canPerformOperation');
 
         $this->assertFalse($canPerformOperation($money, 'divide'));
     }
 
-    public function testCanPerformOperation()
+    public function testCanPerformOperation(): void
     {
-        $money = new Money(100);
+        $money               = new Money(100);
         $canPerformOperation = $this->getPrivateMethodInvoker($this->class, 'canPerformOperation');
 
         $this->assertTrue($canPerformOperation($money, 'divide'));
@@ -71,14 +71,14 @@ class BaseMoneyTest extends CIUnitTestCase
     public function testGenerateInstanceWithInstance(): void
     {
         $getInstance = $this->getPrivateMethodInvoker($this->class, 'getInstance');
-        $money = new Money(100);
+        $money       = new Money(100);
 
         $this->assertInstanceOf(Money::class, $getInstance($money, 2, 'MXN'));
     }
 
     public function testItSameCurrency(): void
     {
-        $money = new Money(100, 2, 'USD');
+        $money       = new Money(100, 2, 'USD');
         $getInstance = $this->getPrivateMethodInvoker($money, 'isSameCurrency');
 
         $this->assertTrue($getInstance(new Money(200, 2, 'USD')));

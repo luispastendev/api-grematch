@@ -7,9 +7,9 @@ $finder = PhpCsFixer\Finder::create()
         'storage',
     ])
     ->in([
-        __DIR__ . '/app/Enums',
-        __DIR__ . '/app/Cards',
-        __DIR__ . '/tests/',
+        // __DIR__ . '/app/Enums',
+        __DIR__ . '/app/Cards/Money/',
+        // __DIR__ . '/tests/',
     ])
     ->name('*.php')
     ->notName('*.blade.php')

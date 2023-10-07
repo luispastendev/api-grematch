@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use CodeIgniter\Test\CIUnitTestCase;
-use App\Enums\Currencies;
 
 class CurrenciesTest extends CIUnitTestCase
 {
