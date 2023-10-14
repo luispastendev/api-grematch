@@ -15,12 +15,24 @@ class LibMoneyTest extends CIUnitTestCase
 {
     public function testLib(): void
     {
-        // $fiver = Money::MXN(500);
+        $fiver = Money::MXN(500);
         // $value1 = Money::MXN(800);                // €8.00
 
 
-        $money = new Money('-', new Currency('MXN'));
-        ray($money)->die();
+        // $money = new Money('-', new Currency('MXN'));
+
+        // public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+
+        // public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    
+        // public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    
+        // public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+
+        echo '<pre>';
+        var_dump($fiver->divide(3, 'ROUND_HALF_UP'));
+        echo '</pre>';
+        exit;
 
 
         // ray($money)->blue()->die();

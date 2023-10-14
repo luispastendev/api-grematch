@@ -12,6 +12,8 @@ final class Number
     {
         $this->check($number);
 
+
+
         return $number;
         // $amount = round($amount, $decimals);
 
@@ -20,12 +22,20 @@ final class Number
         // return true;
     }
 
-    /**
-     * validate correct number
-     */
-    private function check(string $number): void
+    private function validNumber(string $number)
     {
-        ray(gettype($number), $number);
+        preg_match('/^-?(?!0*\.?(0+)?$)(\d+\.?(\d+)?|\.\d+)$/', $number, $matches);
+
+        $match = $matches[0] ?? '';
+
+        return strlen($match) > 0;
+    }
+
+    /**
+     * validate correct format number
+     */
+    private function validFormat(string $number): void
+    {
         preg_match_all('/[^0-9\.]/', $number, $matches);
         $invalidChars = implode('', $matches[0]);
 
