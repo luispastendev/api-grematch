@@ -8,13 +8,27 @@ use App\Cards\Enums\ExceptionMessages;
 
 final class Number
 {
-    public function parse(string $number): mixed
+    private $integerPart;
+    private $fractionalPart;
+
+    // public function __construct($number)
+    // {
+    //     $this->parse($number);
+    // }
+
+
+    private function parse(int|float|string $number): mixed
     {
-        $this->check($number);
+
+        echo '<pre>';
+        var_dump(is_numeric($number));
+        echo '</pre>';
+        exit;
+        // $this->check($number);
+
+        // return $number;
 
 
-
-        return $number;
         // $amount = round($amount, $decimals);
 
         // return $this->toCents($amount, $decimals);
@@ -24,7 +38,7 @@ final class Number
 
     private function validNumber(string $number)
     {
-        preg_match('/^-?(?!0*\.?(0+)?$)(\d+\.?(\d+)?|\.\d+)$/', $number, $matches);
+        preg_match('/^-?(?:\d+)?(?:\.\d+)?(?:(?:\.?\d+|\d+\.\d+|\d+\.)[eE][-+]?\d+)?$/', $number, $matches);
 
         $match = $matches[0] ?? '';
 
