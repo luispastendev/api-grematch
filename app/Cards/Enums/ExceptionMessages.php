@@ -7,6 +7,7 @@ namespace App\Cards\Enums;
 enum ExceptionMessages
 {
     case INVALID_ARGUMENTS;
+    case INVALID_ARGUMENT;
 
     public static function get(string $code): self
     {
@@ -17,6 +18,7 @@ enum ExceptionMessages
     {
         return match ($this) {
             self::INVALID_ARGUMENTS => vsprintf('number %s has invalid characters, -> %s found.', $params), 
+            self::INVALID_ARGUMENT  => vsprintf('number %s not is a valid number.', $params), 
         };
     }
 
@@ -24,6 +26,7 @@ enum ExceptionMessages
     {
         return match ($this) {
             self::INVALID_ARGUMENTS => 1,
+            self::INVALID_ARGUMENT => 2,
         };
     }
 
