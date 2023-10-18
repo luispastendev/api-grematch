@@ -5,24 +5,42 @@ declare(strict_types=1);
 namespace App\Cards\Money;
 
 use App\Cards\Enums\ExceptionMessages;
-use Exception;
-use InvalidArgumentException;
 
 final class Number
 {
-    private $integerPart;
-    private $fractionalPart;
+    private string $integerPart;
+    private string $fractionalPart;
 
-    // public function __construct($number)
-    // {
-    //     $this->validate($number);
-    // }
-    public function __invoke($number)
+    public function __construct(int|float|string $number)
     {
-        $this->parse($number);
+        $this->initializeNumberParts($number);
     }
 
-    public function parse(int|float|string $number): mixed
+    public function isNegative(): bool
+    {
+        return $this->integerPart[0] === '-';
+    }
+
+    public function getFractionalPart(): string
+    {
+        return $this->fractionalPart;
+    }
+
+    public function getIntegerPart(): string
+    {
+        return $this->integerPart;
+    }
+
+    public function getFormattedNumber(): string
+    {
+        if ($this->fractionalPart === '0') {
+            return $this->integerPart;
+        }
+
+        return "{$this->integerPart}.{$this->fractionalPart}";
+    }
+
+    private function initializeNumberParts(int|float|string $number): void
     {
         if (is_int($number) || is_string($number)) {
             $number = (string) $number;
@@ -32,22 +50,9 @@ final class Number
             $number = (string) sprintf('%.14F', $number);
         }
 
-        return $this->makeNumber($number);
-    }
+        $isValid = $this->isValidNumberFormat($number);
 
-    private function makeNumber($number) 
-    {
-        $this->validate($number);
-        $this->generateNumberParts($number);
-    }
-
-    private function validate(string $number): void
-    {
-        preg_match('/^[-+]?(?:\d+)?(?:\.\d+)?(?:(?:\.?\d+|\d+\.\d+|\d+\.)[eE][-+]?\d+)?$/', $number, $matches);
-
-        $match = $matches[0] ?? '';
-
-        if (strlen($match) <= 0) {
+        if (! $isValid) {
             $exception = ExceptionMessages::get('INVALID_ARGUMENT');
 
             throw new \InvalidArgumentException(
@@ -55,17 +60,40 @@ final class Number
                 $exception->code()
             );
         }
+
+        [
+            $this->integerPart,
+            $this->fractionalPart,
+        ] = $this->splitNumber($number);
     }
 
-    private function generateNumberParts(string $number)
+    private function splitNumber(string $number): array
     {
-        if ($number == 0) {
-            $this->integerPart = 0;
-            $this->fractionalPart = 0;
+        [
+            $integerPart,
+            $fractionalPart,
+        ] = array_pad(explode('.', $number, 2), 2, '0');
+
+        if ($integerPart === '-') {
+            $integerPart = '-0';
         }
 
-        $numbers = explode('.', $number);
+        if ($integerPart === '+' || $integerPart === '') {
+            $integerPart = '0';
+        }
 
-        ray($numbers)->die();
+        return [
+            $integerPart,
+            $fractionalPart,
+        ];
+    }
+
+    private function isValidNumberFormat(string $number): bool
+    {
+        preg_match('/^[-+]?(?:\d+)?(?:\.\d+)?(?:(?:\.?\d+|\d+\.\d+|\d+\.)[eE][-+]?\d+)?$/', $number, $matches);
+
+        $match = $matches[0] ?? '';
+
+        return strlen($match) > 0;
     }
 }
